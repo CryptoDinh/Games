@@ -140,7 +140,10 @@ h1.title {
 }
 
 .game-message .lower {
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
   margin-top: 59px;
 }
 
