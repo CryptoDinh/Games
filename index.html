@@ -3,169 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Buttons PNG</title>
+    <title>Game Collection</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            background: #f5f7fa;
+            color: #333;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        header {
+            text-align: center;
+            margin: 20px 0 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e1e4e8;
+        }
+        
+        h1 {
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+        
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            padding: 20px 0;
+        }
+        
+        .game-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+        
+        .game-thumbnail {
+            height: 140px;
+            background: #e0e6ed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #7f8c8d;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        
+        .game-info {
+            padding: 20px;
+        }
+        
+        .game-title {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        .play-btn {
+            display: block;
+            background: var(--secondary);
+            color: white;
+            text-align: center;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        
+        .play-btn:hover {
+            background: #2980b9;
+        }
+        
+        @media (max-width: 768px) {
+            .games-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
-<body style="margin: 0; padding: 20px; background: #f0f0f0; font-family: Arial, sans-serif;">
-    <div style="text-align: center;">
-        <h2>Game Buttons</h2>
-        <canvas id="buttonCanvas" width="300" height="350" style="border: 1px solid #ccc; background: white;"></canvas>
-        <br><br>
-        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-            <button onclick="downloadButton('Menu')" style="padding: 8px 16px; font-size: 14px; background: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">
-                Download Menu
-            </button>
-            <button onclick="downloadButton('Play')" style="padding: 8px 16px; font-size: 14px; background: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">
-                Download Play
-            </button>
-            <button onclick="downloadButton('Continue')" style="padding: 8px 16px; font-size: 14px; background: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">
-                Download Continue
-            </button>
-            <button onclick="downloadButton('Close')" style="padding: 8px 16px; font-size: 14px; background: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">
-                Download Close
-            </button>
-            <button onclick="downloadButton('Highscores')" style="padding: 8px 16px; font-size: 14px; background: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">
-                Download Highscores
-            </button>
+<body>
+    <div class="container">
+        <header>
+            <h1>Game Collection</h1>
+            <p>Pick a game to start playing</p>
+        </header>
+        
+        <div class="games-grid" id="gamesContainer">
+            <!-- Games will be inserted here by JavaScript -->
         </div>
     </div>
 
     <script>
-        const canvas = document.getElementById('buttonCanvas');
-        const ctx = canvas.getContext('2d');
+        // List of games with their details
+        const games = [
+            { id: '2048', name: '2048' },
+            { id: 'agariolite', name: 'Agar.io Lite' },
+            { id: 'cookie', name: 'Cookie Clicker' },
+            { id: 'cubefield', name: 'Cube Field' },
+            { id: 'drivemad', name: 'Drive Mad' },
+            { id: 'geometrydash', name: 'Geometry Dash' },
+            { id: 'lost-Island', name: 'Lost Island' },
+            { id: 'mr-miner', name: 'Mr. Miner' },
+            { id: 'ninja-vs-evilcorp', name: 'Ninja vs Evilcorp' },
+            { id: 'racing-club', name: 'Racing Club' },
+            { id: 'riseupballoon', name: 'Rise Up Balloon' }
+        ];
 
-        function drawButton(x, y, width, height, text) {
-            // Main plaque background
-            ctx.fillStyle = '#8B4513';
-            ctx.strokeStyle = '#654321';
-            ctx.lineWidth = 2;
+        // Function to create game cards
+        function createGameCards() {
+            const container = document.getElementById('gamesContainer');
             
-            // Draw rounded rectangle
-            ctx.beginPath();
-            ctx.roundRect(x, y, width, height, height/2);
-            ctx.fill();
-            ctx.stroke();
-            
-            // Inner border
-            ctx.strokeStyle = '#D2691E';
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.roundRect(x + 5, y + 5, width - 10, height - 10, (height-10)/2);
-            ctx.stroke();
-            
-            // Side circles
-            ctx.fillStyle = '#D2691E';
-            ctx.beginPath();
-            ctx.arc(x + 20, y + height/2, 3, 0, 2 * Math.PI);
-            ctx.fill();
-            
-            ctx.beginPath();
-            ctx.arc(x + width - 20, y + height/2, 3, 0, 2 * Math.PI);
-            ctx.fill();
-            
-            // Decorative flourishes
-            ctx.beginPath();
-            const centerY = y + height/2;
-            const leftX = x + width/2 - 40;
-            const rightX = x + width/2 + 40;
-            
-            // Left flourish
-            ctx.moveTo(leftX, centerY);
-            ctx.quadraticCurveTo(leftX + 5, centerY - 5, leftX + 10, centerY);
-            ctx.quadraticCurveTo(leftX + 5, centerY + 5, leftX, centerY);
-            ctx.fill();
-            
-            // Right flourish
-            ctx.moveTo(rightX, centerY);
-            ctx.quadraticCurveTo(rightX + 5, centerY - 5, rightX + 10, centerY);
-            ctx.quadraticCurveTo(rightX + 5, centerY + 5, rightX, centerY);
-            ctx.fill();
-            
-            // Text
-            ctx.fillStyle = '#F5DEB3';
-            ctx.font = 'bold 24px serif';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText(text, x + width/2, y + height/2);
+            games.forEach(game => {
+                const gameCard = document.createElement('div');
+                gameCard.className = 'game-card';
+                
+                const gameLink = document.createElement('a');
+                gameLink.href = `${game.id}/`;
+                gameLink.style.textDecoration = 'none';
+                gameLink.style.color = 'inherit';
+                
+                const thumbnail = document.createElement('div');
+                thumbnail.className = 'game-thumbnail';
+                thumbnail.textContent = game.name.charAt(0);
+                
+                const info = document.createElement('div');
+                info.className = 'game-info';
+                
+                const title = document.createElement('h3');
+                title.className = 'game-title';
+                title.textContent = game.name;
+                
+                const playBtn = document.createElement('a');
+                playBtn.href = `${game.id}/`;
+                playBtn.className = 'play-btn';
+                playBtn.textContent = 'Play Now';
+                
+                info.appendChild(title);
+                info.appendChild(playBtn);
+                
+                gameLink.appendChild(thumbnail);
+                gameLink.appendChild(info);
+                
+                gameCard.appendChild(gameLink);
+                container.appendChild(gameCard);
+            });
         }
 
-        // Draw all buttons using the new function
-        drawButtonOnContext(ctx, 50, 20, 200, 50, 'Menu');
-        drawButtonOnContext(ctx, 50, 90, 200, 50, 'Play');
-        drawButtonOnContext(ctx, 50, 160, 200, 50, 'Continue');
-        drawButtonOnContext(ctx, 50, 230, 200, 50, 'Close');
-        drawButtonOnContext(ctx, 50, 300, 200, 50, 'Highscores');
-
-        function downloadButton(buttonText) {
-            // Create a new canvas for individual button
-            const individualCanvas = document.createElement('canvas');
-            individualCanvas.width = 220;
-            individualCanvas.height = 70;
-            const individualCtx = individualCanvas.getContext('2d');
-            
-            // Draw single button centered
-            drawButtonOnContext(individualCtx, 10, 10, 200, 50, buttonText);
-            
-            // Download the individual button
-            const link = document.createElement('a');
-            link.download = `${buttonText.toLowerCase()}-button.png`;
-            link.href = individualCanvas.toDataURL();
-            link.click();
-        }
-        
-        function drawButtonOnContext(ctx, x, y, width, height, text) {
-            // Main plaque background
-            ctx.fillStyle = '#8B4513';
-            ctx.strokeStyle = '#654321';
-            ctx.lineWidth = 2;
-            
-            // Draw rounded rectangle
-            ctx.beginPath();
-            ctx.roundRect(x, y, width, height, height/2);
-            ctx.fill();
-            ctx.stroke();
-            
-            // Inner border
-            ctx.strokeStyle = '#D2691E';
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.roundRect(x + 5, y + 5, width - 10, height - 10, (height-10)/2);
-            ctx.stroke();
-            
-            // Side circles
-            ctx.fillStyle = '#D2691E';
-            ctx.beginPath();
-            ctx.arc(x + 20, y + height/2, 3, 0, 2 * Math.PI);
-            ctx.fill();
-            
-            ctx.beginPath();
-            ctx.arc(x + width - 20, y + height/2, 3, 0, 2 * Math.PI);
-            ctx.fill();
-            
-            // Decorative flourishes
-            ctx.beginPath();
-            const centerY = y + height/2;
-            const leftX = x + width/2 - 40;
-            const rightX = x + width/2 + 40;
-            
-            // Left flourish
-            ctx.moveTo(leftX, centerY);
-            ctx.quadraticCurveTo(leftX + 5, centerY - 5, leftX + 10, centerY);
-            ctx.quadraticCurveTo(leftX + 5, centerY + 5, leftX, centerY);
-            ctx.fill();
-            
-            // Right flourish
-            ctx.moveTo(rightX, centerY);
-            ctx.quadraticCurveTo(rightX + 5, centerY - 5, rightX + 10, centerY);
-            ctx.quadraticCurveTo(rightX + 5, centerY + 5, rightX, centerY);
-            ctx.fill();
-            
-            // Text
-            ctx.fillStyle = '#F5DEB3';
-            ctx.font = 'bold 18px serif';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText(text, x + width/2, y + height/2);
-        }
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', createGameCards);
     </script>
-</body>
-</html>
