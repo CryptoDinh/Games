@@ -1,19 +1,61 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>2048</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Share 2048 on social media for a free ticket to the Beer Festival on August 17th at Nanshan District!</title>
+
+  <link href="style/main.css" rel="stylesheet" type="text/css">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="meta/apple-touch-icon.png">
+  <link rel="apple-touch-startup-image" href="meta/apple-touch-startup-image-640x1096.png"
+    media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)"> <!-- iPhone 5+ -->
+  <link rel="apple-touch-startup-image" href="meta/apple-touch-startup-image-640x920.png"
+    media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 2)">
+  <!-- iPhone, retina -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport"
+    content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1, user-scalable=no, minimal-ui">
 </head>
+
+
+
+
+<script>
+  lastScrollY = 0;
+  function heartBeat() {
+    var diffY;
+    if (document.documentElement && document.documentElement.scrollTop)
+      diffY = document.documentElement.scrollTop;
+    else if (document.body)
+      diffY = document.body.scrollTop
+    else {/*Netscape stuff*/ }
+    percent = .1 * (diffY - lastScrollY);
+    if (percent > 0) percent = Math.ceil(percent);
+    else percent = Math.floor(percent);
+    document.getElementById("full").style.top = parseInt(document.getElementById("full").style.top) + percent + "px";
+    lastScrollY = lastScrollY + percent;
+  }
+  document.write(suspendcode);
+  window.setInterval("heartBeat()", 1);
+</script>
+
 <body>
   <div class="container">
-    <div>
-      <a class="restart-button">New Game</a>
+    <div class="heading">
+      <h1 class="title">2048</h1>
       <div class="scores-container">
         <div class="score-container">0</div>
         <div class="best-container">0</div>
       </div>
+    </div>
+
+    <div class="above-game">
+      <a class="restart-button">Start Game</a>
     </div>
 
     <div class="game-container">
@@ -21,7 +63,7 @@
         <p></p>
         <div class="lower">
           <a class="keep-playing-button">Keep going</a>
-          <a class="retry-button">Try again</a>
+          <a class="retry-button">Try Again</a>
         </div>
       </div>
 
@@ -52,17 +94,35 @@
         </div>
       </div>
 
-      <div class="tile-container"></div>
-    </div>
-  </div>
+      <div class="tile-container">
 
-  <script src="polyfills.js"></script>
-  <script src="keyboard_input_manager.js"></script>
-  <script src="html_actuator.js"></script>
-  <script src="grid.js"></script>
-  <script src="tile.js"></script>
-  <script src="local_storage_manager.js"></script>
-  <script src="game_manager.js"></script>
-  <script src="app.js"></script>
+      </div>
+    </div>
+    <hr>
+    <strong class="important">How to play:</strong>
+    Use your
+    <strong>arrow keys</strong>
+    to move the tiles. When two tiles with
+    the same number touch, they
+    <strong>merge into one!</strong>
+  </div>
+  <script>
+    var my_list = { 2: 'Magic Bean', 4: 'Golden Goose', 8: 'Magic Mirror', 16: 'Crystal Ball', 32: 'Magic Wand', 64: 'Flying Carpet', 128: 'Magic Lamp', 256: 'Invisibility Cloak', 512: 'Philosopher\'s Stone', 1024: 'Excalibur', 2048: 'Holy Grail', 4096: 'Dragon\'s Egg', 8192: 'Unicorn Horn', 16384: 'Phoenix Feather', 32768: '32768', 65536: '65536', 131072: '131072', 262144: '262144', 524288: '524288', 1048576: '1048576', 2097152: '2097152', 4194304: '4194304', 8388608: '8388608', 16777216: '16777216', 33554432: '33554432', 67108864: '67108864', 134217728: '134217728', 268435456: '268435456', 536870912: '536870912', 1073741824: '1073741824', 2147483648: '2147483648' }
+    var my_mark = { 2: 'A tiny seed of magic!', 4: 'Lay a golden egg!', 8: 'Mirror, mirror on the wall...', 16: 'The future is clear!', 32: 'Wingardium Leviosa!', 64: 'Up, up and away!', 128: 'Your wish is my command!', 256: 'Now you see me...', 512: 'The elixir of life!', 1024: 'The sword in the stone!', 2048: 'The ultimate treasure found!', 4096: 'A dragon is born!', 8192: 'Pure magic!', 16384: 'Legendary power!', 32768: 'Game Over, HiScore: 32768', 65536: 'Game Over, HiScore: 65536', 131072: 'Game Over, HiScore: 131072', 262144: 'Game Over, HiScore: 262144', 524288: 'Game Over, HiScore: 524288', 1048576: 'Game Over, HiScore: 1048576', 2097152: 'Game Over, HiScore: 2097152', 4194304: 'Game Over, HiScore: 4194304', 8388608: 'Game Over, HiScore: 8388608', 16777216: 'Game Over, HiScore: 16777216', 33554432: 'Game Over, HiScore: 33554432', 67108864: 'Game Over, HiScore: 67108864', 134217728: 'Game Over, HiScore: 134217728', 268435456: 'Game Over, HiScore: 268435456', 536870912: 'Game Over, HiScore: 536870912', 1073741824: 'Game Over, HiScore: 1073741824', 2147483648: 'Game Over, HiScore: 2147483648' }
+    var my_goal = 1024;
+  </script>
+  <script src="js/bind_polyfill.js"></script>
+  <script src="js/classlist_polyfill.js"></script>
+  <script src="js/animframe_polyfill.js"></script>
+  <script src="js/keyboard_input_manager.js"></script>
+  <script src="js/html_actuator.js"></script>
+  <script src="js/grid.js"></script>
+  <script src="js/tile.js"></script>
+  <script src="js/local_storage_manager.js"></script>
+  <script src="js/game_manager.js"></script>
+  <script src="js/application.js"></script>
+
+
 </body>
+
 </html>
