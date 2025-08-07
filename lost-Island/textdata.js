@@ -1,5 +1,5 @@
 var G1P61 = {
-	'b36': "          Stage Complete!",
+	'b36': "    Stage Complete!",
 	'e36': "Game Over",
 	'W26': "Level",
 	'Z26': "You died!",

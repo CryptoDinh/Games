@@ -108,7 +108,7 @@ Game.prototype.showEnding = function(state) {
     var isWin = (state == STATE_WIN);
     var ending = $(".ending");
     var title = ending.find("p");
-    title.text(isWin ? "胜利": "失败");
+    title.text(isWin ? "Victory": "Defeat");
     title.css("background-color", isWin ? "#5cb85c": "#f0ad4e");
     var btn = ending.find(".retry");
     btn.attr("class", "retry btn btn-" + (isWin ? "success": "warning"));

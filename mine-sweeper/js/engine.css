@@ -7,7 +7,7 @@
 
 html, body{
   font-size: 24px; 
-  font-family: STXihei, "华文细黑", "Microsoft YaHei", "微软雅黑", Helvetica, Tahoma, Arial, sans-serif;
+  font-family: "Microsoft YaHei", "Microsoft JhengHei", "PingFang SC", "Hiragino Sans GB", "WenQuanYi Micro Hei", Helvetica, Tahoma, Arial, sans-serif;
 }
 
 .engine {
